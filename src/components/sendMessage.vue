@@ -1,10 +1,12 @@
 <template>
-  <div></div>
+<div>
+  aaaaaaaaaaaaaaa
+</div>
 </template>
 
 <script>
 export default {
-  name: 'account'
+  name: 'sendMessage'
 }
 </script>
 
