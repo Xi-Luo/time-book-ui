@@ -36,20 +36,20 @@
 
 <script>
 export default {
-  name: "receiveMessage",
-  data() {
+  name: 'receiveMessage',
+  data () {
     return {
       List: [
-        { username: "a", neirong: "dwndeuondiowenjqoi", date: "2019-10-12" },
-        { username: "a", neirong: "cewncinweocnwoenc", date: "" },
-        { username: "a", neirong: "dwndeuondiowenjqoi", date: "2019-10-12" },
-        { username: "a", neirong: "cewncinweocnwoenc", date: "" }
+        { username: 'a', neirong: 'dwndeuondiowenjqoi', date: '2019-10-12' },
+        { username: 'a', neirong: 'cewncinweocnwoenc', date: '' },
+        { username: 'a', neirong: 'dwndeuondiowenjqoi', date: '2019-10-12' },
+        { username: 'a', neirong: 'cewncinweocnwoenc', date: '' }
       ],
       dialogFormVisible: false,
-      textarea: "",
-    };
+      textarea: ''
+    }
   }
-};
+}
 </script>
 
 <style scoped>

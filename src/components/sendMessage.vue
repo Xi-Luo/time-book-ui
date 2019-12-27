@@ -124,10 +124,9 @@ export default {
         }
       ],
       List: [
-        { username: 'a', content: 'dwndeuondiowenjqoi', date: '2019-10-12', isRead: '已读'},
-        { username: 'a', content: 'cewncinweocnwoenc', date: '', isRead: '已读' },
-        { username: 'a', content: 'dwndeuondiowenjqoi', date: '2019-10-12', isRead: '未读' },
-        { username: 'a', content: 'cewncinweocnwoenc', date: '', isRead: '已读' }
+        {username: 'a', content: 'ddddddddd', date: 'aaaaaaaaaaa', isRead: '已读'},
+        {},
+        {}
       ]
     }
   },

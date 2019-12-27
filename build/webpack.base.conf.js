@@ -52,7 +52,7 @@ module.exports = {
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(png|jpeg|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 80000,
@@ -77,10 +77,14 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg|ttf|woff)$/,
-        loader: 'file-loader',
+        loader: 'url-loader',
         options: {
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'url-loader'
       }
     ]
   },
