@@ -1,99 +1,49 @@
 <template>
-  <el-table
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      prop="date"
-      label="日期"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="地址">
-    </el-table-column>
-  </el-table>
+  <div>
+    <div>
+      <el-card
+        style="width:700px;margin-bottom:30px"
+        class="box-card"
+        v-for="item in List"
+        :key="item.id"
+      >
+        <div style="padding:0px;margin:0px">
+          {{item.username}}向您于{{item.date}}发送了一条预约邀请，
+          <br />内容：
+          <br />
+          <div style="padding-left:20px">{{item.neirong}}</div>
+          <br />
+          <el-button v-popover:popover2 style="float:right; margin-left:20px" type="text">拒绝</el-button>
+          <el-popover
+            ref="popover2"
+            placement="bottom"
+            title="标题"
+            width="200"
+            trigger="click"
+            content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+          ></el-popover>
+          <el-button type="text" style="float:right;">确认</el-button>
+        </div>
+      </el-card>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'receiveMessage',
-  data () {
+  name: "receiveMessage",
+  data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
-    }
+      List: [
+        { username: "a", neirong: "dwndeuondiowenjqoi", date: "2019-10-12" },
+        { username: "a", neirong: "cewncinweocnwoenc", date: "" },
+        { username: "a", neirong: "dwndeuondiowenjqoi", date: "2019-10-12" },
+        { username: "a", neirong: "cewncinweocnwoenc", date: "" }
+      ]
+    };
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>
