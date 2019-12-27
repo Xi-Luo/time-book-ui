@@ -6,6 +6,8 @@ import router from './router'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/css/style.css'
 import ElementUI from 'element-ui'
+import '@/assets/iconfont.css'
+import '@/assets/css/element-icons.woff'
 import axios from 'axios'
 
 Vue.use(ElementUI)
