@@ -3,38 +3,35 @@
     <!--    选择空闲时间对话框-->
     <el-button round type="text" @click="dialogVisible = true">添加空闲时间</el-button>
     <el-dialog
-      title="编辑"
+      title="添加空闲时间"
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose">
-      <div>
-        <p class="textstyle">只能选择最近七天</p><br>
-        <el-date-picker
-          v-model="pickDate"
-          type="date"
-          placeholder="选择日期"
-          :picker-options="pickerOptions">
-        </el-date-picker>
-        <el-time-select
-          placeholder="起始时间"
-          v-model="pickstartTime"
-          :picker-options="{
-      start: '00:00',
-      step: '01:00',
-      end: '23:00'
-    }">
+      <el-date-picker
+        v-model="pickDate"
+        type="date"
+        placeholder="选择最近七天"
+        :picker-options="pickerOptions">
+      </el-date-picker>
+      <el-time-select
+        placeholder="起始时间"
+        style="margin-top: 10px"
+        v-model="pickstartTime"
+        :picker-options="{
+        start: '00:00',
+        step: '01:00',
+        end: '23:00'}">
         </el-time-select>
         <el-time-select
+          style="margin-top: 10px"
           placeholder="结束时间"
           v-model="pickendTime"
           :picker-options="{
-      start: '00:00',
-      step: '01:00',
-      end: '24:00',
-      minTime: pickstartTime
-    }">
+        start: '00:00',
+        step: '01:00',
+        end: '24:00',
+        minTime: pickstartTime}">
         </el-time-select>
-      </div>
       <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
