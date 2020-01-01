@@ -23,7 +23,7 @@
               v-model="bookDate"
               align="right"
               type="date"
-              placeholder="选择日期"/>
+              placeholder="选择日期"></el-date-picker>
           </div>
           <div class="demo-input-suffix" style="margin-top: 10px">
             起止时间：
@@ -33,7 +33,7 @@
               :picker-options="{
               start: '08:30',
               step: '00:15',
-               end: '18:30'}"/>——
+               end: '18:30'}"></el-time-select>——
             <el-time-select
               placeholder="结束时间"
               v-model="endTime"
@@ -41,7 +41,7 @@
               start: '08:30',
               step: '00:15',
               end: '18:30',
-              minTime: startTime}"/>
+              minTime: startTime}"></el-time-select>
           </div>
           <el-input
             style="margin-top:30px"
@@ -49,7 +49,7 @@
             :rows="5"
             placeholder="请输入预约活动"
             v-model="bookContent"
-            clearable/>
+            clearable></el-input>
         </el-main>
       </el-container>
       <span slot="footer" class="dialog-footer">
