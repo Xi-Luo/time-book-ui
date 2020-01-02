@@ -7,6 +7,8 @@ import Register from '@/components/register'
 import Topbar from '@/components/topBar'
 import Send from '@/components/sendMessage'
 import Receive from '@/components/receiveMessage'
+import Timet from '@/components/timeTable'
+import Books from '@/components/bookShow'
 
 Vue.use(Router)
 const Login = resolve => require(['@/components/login'], resolve)
@@ -31,7 +33,12 @@ export default new Router({
         {
           path: '/home',
           name: 'Home',
-          component: Home
+          component: Home,
+          redirect: '/timet',
+          children: [
+            {path: '/timet', name: 'Timet', component: Timet},
+            {path: '/books', name: 'Books', component: Books}
+          ]
         },
         {
           path: '/book',
