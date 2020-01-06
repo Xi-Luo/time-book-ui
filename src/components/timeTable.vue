@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-left: 0">
     <!--    选择空闲时间对话框-->
     <el-button round type="text" @click="dialogVisible = true">添加空闲时间</el-button>
     <el-dialog
@@ -30,7 +30,7 @@
         :picker-options="{
         start: '00:00',
         step: '01:00',
-        end: '24:00',
+        end: '23:00',
         minTime: pickform.pickstartTime}">
       </el-time-select>
       </el-form>
@@ -64,6 +64,7 @@ export default {
   name: 'timeTable',
   data () {
     return {
+      Id: '',
       pickform: {
         pickDate: '',
         pickstartTime: '',
@@ -128,59 +129,84 @@ export default {
         perhour: 22
       }, {
         perhour: 23
-      }],
-      timelist: [
-        {date: '2020-01-03',
-          starttime: '12:00:00',
-          endtime: '15:00:00',
-          event: '',
-          isfree: true},
-        {date: '2020-01-02',
-          starttime: '06:00:00',
-          endtime: '09:00:00',
-          event: '',
-          isfree: true},
-        {date: '2020-01-03',
-          starttime: '22:00:00',
-          endtime: '23:00:00',
-          event: '',
-          isfree: false},
+      }
+      ],
+      timelist: [],
+      melist: [
         {date: '2020-01-06',
           starttime: '04:00:00',
           endtime: '16:00:00',
           event: '',
-          isfree: false},
+          isfree: 0},
         {date: '2020-01-09',
           starttime: '08:00:00',
           endtime: '10:00:00',
           event: '',
-          isfree: true},
-        {date: '2020-01-01',
-          starttime: '07:00:00',
-          endtime: '12:00:00',
-          event: '',
-          isfree: true}
+          isfree: 0}
       ]
     }
   },
+  watch: {
+    formarr () {
+      for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 24; j++) {
+          this.checkbook(i, j)
+          this.checkfree(i, j)
+        }
+      }
+    }
+  },
   created () {
+    this.getParams()
+    this.initTimeList()
     // 初始化表的状态矩阵
     this.initFormarr()
     // 用时间数组更新状态数组
-    this.changeFormarr()
+    // this.changeFormarr()
   },
   methods: {
+    getParams () {
+      this.Id = this.$router.history.current.query.userId
+      console.log('ppppppppparams', this.Id)
+      console.log(this.melist)
+    },
+    initTimeList () {
+      console.log('this is init')
+      const url = 'http://localhost:8080/v1/time/init/' + this.Id
+      console.log(url)
+      this.axios.get(url).then(res => {
+        console.log(res.data)
+        this.timelist = res.data.timesList
+        console.log('this is qianduan tl', this.timelist)
+        console.log('end!')
+        this.changeFormarr()
+      }).catch(err => { console.log(err) })
+    },
     handleClose (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {
-        })
+      done()
     },
     onSubmit () {
       // 空闲时间选择表单提交
       // 弹出框隐藏
+      // console.log(this.pickform.pickDate, this.pickform.pickstartTime, this.pickform.pickendTime)
+      let date = this.pickform.pickDate
+      let ds = date.getFullYear() + '-' + date.getMonth() + 1 + '-'
+      if (date.getDate() <= 9) {
+        ds = ds + '0' + date.getDate()
+      } else {
+        ds = ds + date.getDate()
+      }
+      let st = ds + ' ' + this.pickform.pickstartTime + ':00'
+      let et = ds + ' ' + this.pickform.pickendTime + ':00'
+      ds = ds + ' ' + '00:00:00'
+      let id = this.global.id + ''
+      this.axios.post('http://localhost:8080/v1/time', {
+        UserId: '1',
+        Date: ds,
+        StartTime: st,
+        EndTime: et
+      }).then().catch()
+      console.log(ds, st, et, id)
       this.dialogVisible = false
       console.log('submit!')
     },
@@ -196,6 +222,8 @@ export default {
     },
     changeFormarr () {
       // 用空闲时间数组更新状态数组
+      console.log('startchange!')
+      console.log(this.timelist)
       var currenttime = new Date()
       for (let i = 0; i < this.timelist.length; i++) {
         var date = new Date(this.timelist[i].date)
@@ -207,7 +235,7 @@ export default {
             var start3 = tempstarttime.getHours()
             var end3 = tempendtime.getHours()
             for (let j = start3; j < end3; j++) {
-              if (this.timelist[i].isfree === true) this.formarr[d3][j] = 1
+              if (this.timelist[i].isfree === 0) this.formarr[d3][j] = 1
               else this.formarr[d3][j] = 2
             }
           }
@@ -218,7 +246,7 @@ export default {
               var start = tempstarttime.getHours()
               var end = tempendtime.getHours()
               for (let j = start; j < end; j++) {
-                if (this.timelist[i].isfree === true) this.formarr[d][j] = 1
+                if (this.timelist[i].isfree === 0) this.formarr[d][j] = 1
                 else this.formarr[d][j] = 2
               }
             }
@@ -230,7 +258,7 @@ export default {
               var start2 = tempstarttime.getHours()
               var end2 = tempendtime.getHours()
               for (let j = start2; j < end2; j++) {
-                if (this.timelist[i].isfree === true) this.formarr[d2][j] = 1
+                if (this.timelist[i].isfree === 0) this.formarr[d2][j] = 1
                 else this.formarr[d2][j] = 2
               }
             }

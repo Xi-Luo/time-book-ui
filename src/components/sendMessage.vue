@@ -11,8 +11,9 @@
         <el-aside>
           <h3>{{this.username}}的空闲时间：</h3>
           <el-table :data="gridData">
-            <el-table-column prop="date" label="日期" width="140px"></el-table-column>
-            <el-table-column prop="time" label="时间" width="140px"></el-table-column>
+            <el-table-column prop="date" label="日期" width="100px"></el-table-column>
+            <el-table-column prop="starttime" label="起始时间" width="100px"></el-table-column>
+            <el-table-column prop="endtime" label="结束时间" width="100px"></el-table-column>
           </el-table>
         </el-aside>
         <el-main style="margin-left: 30px">
@@ -31,16 +32,17 @@
               placeholder="起始时间"
               v-model="startTime"
               :picker-options="{
-              start: '08:30',
-              step: '00:15',
-               end: '18:30'}"></el-time-select>——
+              start: '00:00',
+              step: '01:00',
+              end: '23:00',
+              }"></el-time-select>——
             <el-time-select
               placeholder="结束时间"
               v-model="endTime"
               :picker-options="{
-              start: '08:30',
-              step: '00:15',
-              end: '18:30',
+              start: '00:00',
+              step: '01:00',
+              end: '23:00',
               minTime: startTime}"></el-time-select>
           </div>
           <el-input
@@ -54,7 +56,7 @@
       </el-container>
       <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
-     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+     <el-button type="primary" @click="bookConfirm">确 定</el-button>
      </span>
     </el-dialog>
     <div style="margin-bottom:10px">历史记录</div>
@@ -63,14 +65,11 @@
       class="box-card"
       v-for="item in List"
       :key="item.id">
-      <div style="padding:0px;margin:0px">
-        您向 {{item.username}}于{{item.date}}发送了一条预约邀请，
-        <br />内容：
-        <br />
-        <div style="padding-left:20px">{{item.content}}</div>
-        <br />
-        <div style=" text-align: right;">{{item.isRead}}</div>
-      </div>
+      <div>您向 {{item.username}}发送了一条预约邀请，</div>
+      <div style="padding-left:20px">时间：{{item.date}} {{item.startTime}}--{{item.endTime}}</div>
+        <div style="padding-left:20px">内容：{{item.content}}</div>
+        <div style="padding-left:20px">状态：{{item.aStr}}</div>
+        <div style="padding-left:20px">{{item.elseMessage}}</div>
     </el-card>
   </div>
 </template>
@@ -88,51 +87,59 @@ export default {
       value1: '',
       bookDate: '',
       input10: '',
-      gridData: [
-        {
-          name: '王小虎',
-          date: '2019-2-5',
-          time: '20:5'
-        }, {
-          name: '王小虎',
-          date: '2019-2-5',
-          time: '20:5'
-        }, {
-          name: '王小虎',
-          date: '2019-2-5',
-          time: '20:5'
-        }, {
-          name: '王小虎',
-          date: '2019-2-5',
-          time: '20:5'
-        }, {
-          name: '王小虎',
-          date: '2019-2-5',
-          time: '20:5'
-        }, {
-          name: '王小虎',
-          date: '2019-2-5',
-          time: '20:5'
-        }, {
-          name: '王小虎',
-          date: '2019-2-5',
-          time: '20:5'
-        }, {
-          name: '王小虎',
-          date: '2019-2-5',
-          time: '20:5'
-        }
-      ],
-      List: [
-        {username: 'a', content: 'ddddddddd', date: 'aaaaaaaaaaa', isRead: '已读'},
-        {},
-        {}
-      ]
+      gridData: [],
+      List: []
     }
   },
+  created () {
+    this.init()
+  },
   methods: {
+    init () {
+      let url = 'http://localhost:8080/v1/book/' + this.global.id
+      this.axios.get(url).then(res => {
+        this.List = res.data.booksList
+        console.log(this.List)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    handleClose (done) {
+      done()
+    },
+    bookConfirm () {
+      let date = this.bookDate
+      let ds = date.getFullYear() + '-' + date.getMonth() + 1 + '-'
+      if (date.getDate() <= 9) {
+        ds = ds + '0' + date.getDate()
+      } else {
+        ds = ds + date.getDate()
+      }
+      let st = ds + ' ' + this.startTime + ':00'
+      let et = ds + ' ' + this.endTime + ':00'
+      ds = ds + ' ' + '00:00:00'
+      let id = this.global.id + ''
+      console.log(ds, st, et, id)
+      this.axios.post('http://localhost:8080/v1/book/', {
+        SendToName: this.username,
+        Date: ds,
+        StartTime: st,
+        EndTime: et,
+        UserId: id,
+        Event: this.bookContent,
+        UserName: this.global.userName
+      })
+      this.dialogVisible = false
+    },
     searchButtonClick () {
-      this.dialogVisible = true
+      let url = 'http://localhost:8080/v1/time/free/' + this.username
+      this.axios.get(url).then(res => {
+        this.gridData = res.data.timesList
+        console.log(this.gridData)
+        this.dialogVisible = true
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 

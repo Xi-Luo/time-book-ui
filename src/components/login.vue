@@ -1,8 +1,7 @@
 <template>
-  <div style="width: 30%;margin-left: 35%" >
-    <el-form ref="AccountForm" :model="account" :rules="rules" label-position="left" label-width="0px"
-             class="demo-ruleForm login-container">
-      <h3 class="title">欢迎登录</h3>
+  <div style="width: 30%;margin-left: 35%;margin-top: 10%" >
+    <el-form ref="AccountForm" :model="account" :rules="rules" label-position="left" label-width="0px">
+      <h3 class="title" style="margin-left: 35%">欢迎登录</h3>
       <el-form-item prop="username">
         <el-input
           type="text"
@@ -24,6 +23,7 @@
   </div>
 </template>
 <script>
+
 export default {
   name: 'login',
   data () {
@@ -51,6 +51,7 @@ export default {
     }
     return {
       loading: false,
+      Id: '',
       account: {
         username: '',
         pwd: ''
@@ -78,10 +79,27 @@ export default {
   },
   methods: {
     handleLogin () {
-      let that = this
-      this.$router.push({
-        path: '/home',
-        params: {userName: that.account.username}})
+      // let that = this
+
+      this.axios.post('http://localhost:8080/v1/user/login', {
+        UserName: this.account.username,
+        Password: this.account.pwd}).then(res => {
+        if (res.data != null) {
+          this.Id = res.data
+          console.log('loginid', this.Id)
+          this.global.id = this.Id
+          this.global.userName = this.account.username
+          console.log('global', this.global.id)
+          this.$message.success('登录成功！')
+          this.$router.push({
+            path: '/timet',
+            query: {
+              userId: this.Id
+            }
+          })
+        }
+      }).catch()
+
       // let result = {
       //   id: '1',
       //   username: 'admin',

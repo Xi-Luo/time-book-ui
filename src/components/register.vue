@@ -1,6 +1,6 @@
 <template>
-  <div style="width: 30%;margin-left: 35%">
-    <h3 class="title">注册</h3>
+  <div style="width: 30%;margin-left: 30%;margin-top: 10%">
+    <h3 class="title" style="margin-left: 50%">注册</h3>
     <br>
     <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
       <el-form-item label="用户名" prop="username">
@@ -13,6 +13,9 @@
         <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item>
+        <router-link :to="{path: '/'}" class="reg-text" >返回登录</router-link>
+      </el-form-item>
+      <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
         <el-button @click="resetForm('ruleForm2')">重置</el-button>
       </el-form-item>
@@ -21,6 +24,8 @@
 </template>
 
 <script>
+// import {addUser} from '@/api/user'
+
 export default {
   name: 'register',
   data () {
@@ -83,10 +88,14 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
+          this.axios.post('http://localhost:8080/v1/user', {
+            UserName: this.ruleForm2.username,
+            Password: this.ruleForm2.pass}).then(res => {
+            this.$message.success('注册成功！')
+            this.$router.push({
+              path: '/'
+            })
+          }).catch()
         }
       })
     },

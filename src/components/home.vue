@@ -1,6 +1,6 @@
 <template>
   <div id="book" style="margin-left: 0%">
-    <el-container ref="homePage" style="margin-left: 0%">
+    <el-container style="margin-left: 0%">
       <el-aside style="margin-left: 0%;width: 10%">
         <el-menu
           style="height: 100%"
@@ -32,7 +32,6 @@ export default {
   name: 'home',
   data () {
     return {
-      clientHeight: '',
       navList: [
         {name: '/timet', navItem: '时间表'},
         {name: '/books', navItem: '预约事件'}
@@ -47,9 +46,6 @@ export default {
   },
   watch: {
     // 如果 `clientHeight` 发生改变，这个函数就会运行
-    clientHeight: function () {
-      this.changeFixed(this.clientHeight)
-    }
   },
   methods: {
     handleOpen (key, keyPath) {
@@ -61,7 +57,7 @@ export default {
     changeFixed (clientHeight) {
       // console.log(clientHeight);
       // console.log(this.$refs.homePage.$el.style.height);
-      this.$refs.homePage.$el.style.height = clientHeight - 20 + 'px'
+      // this.$refs.homePage.$el.style.height = clientHeight - 20 + 'px'
     }
   }
 
