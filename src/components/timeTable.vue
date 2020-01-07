@@ -201,7 +201,7 @@ export default {
       ds = ds + ' ' + '00:00:00'
       let id = this.global.id + ''
       this.axios.post('http://localhost:8080/v1/time', {
-        UserId: '1',
+        UserId: this.global.id + '',
         Date: ds,
         StartTime: st,
         EndTime: et

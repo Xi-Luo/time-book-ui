@@ -4,7 +4,7 @@
       <el-card
         style="width:700px;margin-bottom:30px"
         class="box-card"
-        v-for="item in List"
+        v-for="(item,index) in List"
         :key="item.id"
       >
         <div>{{item.username}}向您发送了一条预约邀请，</div>
@@ -15,7 +15,7 @@
             style="float:right; margin-left:20px"
             type="text"
           >拒绝</el-button>
-          <el-button type="text" @click="acceptClick1(item.id)" style="float:right;">接受</el-button>
+          <el-button type="text" @click="acceptClick1(index)" style="float:right;">接受</el-button>
       </el-card>
       <el-dialog width="50%" title="接受回复" :visible.sync="dialogFormVisibleA">
         <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="textarea"></el-input>
@@ -62,8 +62,8 @@ export default {
     },
     acceptClick1 (it) {
       this.dialogFormVisibleA = true
-      this.selectId = it
-      console.log('pppppppppppppppppp', this.selectId)
+      this.selectId = this.List[it].id
+      console.log('ppppppppppiiiiiiiiii', this.selectId)
     },
     acceptClick2 () {
       this.axios.post('http://localhost:8080/v1/book/update', {
